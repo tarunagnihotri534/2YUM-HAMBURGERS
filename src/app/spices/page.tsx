@@ -122,7 +122,7 @@ export default function SpicesPage() {
         </div>
 
         {/* Bottom Red Wave */}
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10">
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 wave-red">
           <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[12vw] max-md:h-[20vw]">
             <path 
               d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C52.71,76.4,103.42,54.7,157,41.25,212.59,27.32,269.44,30.41,321.39,56.44Z" 
@@ -314,10 +314,12 @@ export default function SpicesPage() {
 function CtaSection() {
   return (
     <section className="cta-section" id="cta-desktop">
-      {/* Wave at the top of the CTA section transitioning from the mustard section */}
-      <svg className="cta-wave" viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path fill="var(--mustard)" d="M0,0 C 400,150 1000,200 1440,50 L1440,0 L0,0 Z" />
-      </svg>
+      {/* Wave from mustard Story Section above */}
+      <div className="section-wave-top">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="wave-path-mustard-top" d="M0,45 C360,90 720,0 1080,45 C1260,67 1380,30 1440,45 L1440,0 L0,0 Z" />
+        </svg>
+      </div>
 
       <div className="cta-content-wrapper">
         <div className="cta-text-area">

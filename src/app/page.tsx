@@ -193,6 +193,12 @@ function AboutSection() {
           </div>
         </div>
       </div>
+      {/* Wave into red ExperienceSection */}
+      <div className="section-wave-bottom">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="wave-path-red" d="M0,45 C360,90 720,0 1080,45 C1260,67 1380,30 1440,45 L1440,90 L0,90 Z" />
+        </svg>
+      </div>
     </section>
   );
 }
@@ -200,6 +206,11 @@ function AboutSection() {
 // ── Experience Section ────────────────────────────
 function ExperienceSection() {
   const ref = useRef<HTMLElement>(null);
+  const eyeLeftRef = useRef<HTMLDivElement>(null);
+  const eyeRightRef = useRef<HTMLDivElement>(null);
+  const pupilLeftRef = useRef<HTMLDivElement>(null);
+  const pupilRightRef = useRef<HTMLDivElement>(null);
+  const [isBlinking, setIsBlinking] = useState(false);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -221,18 +232,88 @@ function ExperienceSection() {
     return () => ctx.revert();
   }, []);
 
+  // Eye tracking logic + scroll update
+  useEffect(() => {
+    let mouseX = 0;
+    let mouseY = 0;
+    let hasMouseMoved = false;
+
+    const updateEyes = () => {
+      const eyes = [
+        { eye: eyeLeftRef.current, pupil: pupilLeftRef.current },
+        { eye: eyeRightRef.current, pupil: pupilRightRef.current },
+      ];
+
+      eyes.forEach(({ eye, pupil }) => {
+        if (!eye || !pupil) return;
+
+        // Reset to center until the mouse has moved at least once
+        if (!hasMouseMoved) {
+          pupil.style.transform = "translate(0px, 0px)";
+          return;
+        }
+
+        const rect = eye.getBoundingClientRect();
+        const eyeX = rect.left + rect.width / 2;
+        const eyeY = rect.top + rect.height / 2;
+
+        const dx = mouseX - eyeX;
+        const dy = mouseY - eyeY;
+        const distance = Math.hypot(dx, dy);
+
+        // Clamp movement to 26% of eye width so pupils never clip the edge
+        const maxOffset = rect.width * 0.26;
+        const angle = Math.atan2(dy, dx);
+
+        const moveX = Math.cos(angle) * Math.min(distance, maxOffset);
+        const moveY = Math.sin(angle) * Math.min(distance, maxOffset);
+
+        pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      hasMouseMoved = true;
+      updateEyes();
+    };
+
+    const handleScroll = () => {
+      if (hasMouseMoved) {
+        updateEyes();
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Blink logic
+  useEffect(() => {
+    let blinkTimeout: ReturnType<typeof setTimeout>;
+    
+    const triggerBlink = () => {
+      setIsBlinking(true);
+      setTimeout(() => {
+        setIsBlinking(false);
+      }, 150);
+      
+      const nextBlink = 3000 + Math.random() * 5000;
+      blinkTimeout = setTimeout(triggerBlink, nextBlink);
+    };
+    
+    blinkTimeout = setTimeout(triggerBlink, 4000);
+    return () => clearTimeout(blinkTimeout);
+  }, []);
+
   return (
     <section ref={ref} className="experience-section">
-      <div className="experience-wave">
-        <div className="wave-loop">
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--red)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--red)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-        </div>
-      </div>
       <div className="experience-content">
         <div className="exp-text-wrap">
           <p className="exp-eyebrow">EXPERIENCE</p>
@@ -244,6 +325,22 @@ function ExperienceSection() {
         <div className="exp-main-burger-wrap">
           <Image src={IMG.burgerwithhands} alt="Burger With Hands" width={1000} height={1000} style={{ width: "100%", height: "auto" }} />
           
+          {/* Interactive Gaze Eyes */}
+          <div className="burger-eyes-container">
+            <div className="burger-eye-wrapper">
+              <div className="burger-eyebrow eyebrow-left" />
+              <div className={`burger-eye eye-left ${isBlinking ? "blinking" : ""}`} ref={eyeLeftRef}>
+                <div className="burger-pupil" ref={pupilLeftRef} />
+              </div>
+            </div>
+            <div className="burger-eye-wrapper">
+              <div className="burger-eyebrow eyebrow-right" />
+              <div className={`burger-eye eye-right ${isBlinking ? "blinking" : ""}`} ref={eyeRightRef}>
+                <div className="burger-pupil" ref={pupilRightRef} />
+              </div>
+            </div>
+          </div>
+
           <div className="exp-info-left">
             450 KCAL<br />
             HIGH PROTEIN<br />
@@ -261,16 +358,6 @@ function ExperienceSection() {
           </div>
         </div>
       </div>
-      <div className="experience-wave-bottom">
-        <div className="wave-loop">
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--red)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--red)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-        </div>
-      </div>
     </section>
   );
 }
@@ -279,7 +366,19 @@ function ExperienceSection() {
 function CheesyBurgerSection() {
   return (
     <section className="cheesy-photo-section">
+      {/* Red Wave from ExperienceSection above */}
+      <div className="section-wave-top">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="wave-path-red-top" d="M0,45 C360,90 720,0 1080,45 C1260,67 1380,30 1440,45 L1440,0 L0,0 Z" />
+        </svg>
+      </div>
       <Image src={IMG.cheesyBurgerImg} alt="Cheesy Burger" fill style={{ objectFit: "cover" }} />
+      {/* Wave into cream IngredientsSection */}
+      <div className="section-wave-bottom">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="wave-path-cream" d="M0,45 C360,90 720,0 1080,45 C1260,67 1380,30 1440,45 L1440,90 L0,90 Z" />
+        </svg>
+      </div>
     </section>
   );
 }
@@ -308,17 +407,6 @@ function IngredientsSection() {
 
   return (
     <section ref={ref} className="ingredients-section-new">
-      <div className="ing-wave-top">
-        <div className="wave-loop">
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--cream)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--cream)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-        </div>
-      </div>
-
       <div className="ing-content-new">
         <div className="ing-text-wrap-new">
           <p className="ing-eyebrow-new">PURE QUALITY</p>
@@ -345,15 +433,11 @@ function IngredientsSection() {
         </div>
       </div>
 
-      <div className="ing-wave-bottom">
-        <div className="wave-loop">
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--cream)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-            <path fill="var(--cream)" d="M0,60 C320,120 420,0 740,60 C1060,120 1120,0 1440,60 L1440,120 L0,120 Z" />
-          </svg>
-        </div>
+      {/* Wave into yellow MapSection */}
+      <div className="section-wave-bottom">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="wave-path-yellow" d="M0,45 C360,90 720,0 1080,45 C1260,67 1380,30 1440,45 L1440,90 L0,90 Z" />
+        </svg>
       </div>
     </section>
   );
@@ -475,9 +559,12 @@ function MapSection() {
 function CtaSection() {
   return (
     <section className="cta-section" id="cta-desktop">
-      <svg className="cta-wave" viewBox="0 0 1440 200" preserveAspectRatio="none">
-        <path fill="var(--yellow)" d="M0,0 C 400,150 1000,200 1440,50 L1440,0 L0,0 Z" />
-      </svg>
+      {/* Wave from yellow MapSection above */}
+      <div className="section-wave-top">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path className="wave-path-yellow-top" d="M0,45 C360,90 720,0 1080,45 C1260,67 1380,30 1440,45 L1440,0 L0,0 Z" />
+        </svg>
+      </div>
 
       <div className="cta-content-wrapper">
         <div className="cta-text-area">
