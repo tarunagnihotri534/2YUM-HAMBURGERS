@@ -6,6 +6,7 @@ import gsap from "gsap";
 const PREP_STEPS = [
   "TOAST THE BUN",
   "FRESH LETTUCE",
+  "JUICY TOMATOES",
   "MELT THE CHEESE",
   "GRILL THE PATTY",
   "STACK IT UP",
@@ -39,6 +40,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
         [
           ".pre-bun-top",
           ".pre-lettuce",
+          ".pre-tomato",
           ".pre-cheese",
           ".pre-patty",
           ".pre-bun-bottom",
@@ -96,9 +98,9 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       );
       showStep(".pre-step-2", "-=0.25");
 
-      // ── Step 3: Melt the cheese ──
+      // ── Step 3: Juicy tomatoes ──
       tl.to(
-        ".pre-cheese",
+        ".pre-tomato",
         {
           y: 0,
           opacity: 1,
@@ -110,9 +112,9 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       );
       showStep(".pre-step-3", "-=0.25");
 
-      // ── Step 4: Grill the patty ──
+      // ── Step 4: Melt the cheese ──
       tl.to(
-        ".pre-patty",
+        ".pre-cheese",
         {
           y: 0,
           opacity: 1,
@@ -124,7 +126,21 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
       );
       showStep(".pre-step-4", "-=0.25");
 
-      // ── Step 5: Stack it up (bottom bun) ──
+      // ── Step 5: Grill the patty ──
+      tl.to(
+        ".pre-patty",
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.45,
+          ease: "back.out(1.5)",
+        },
+        "-=0.05"
+      );
+      showStep(".pre-step-5", "-=0.25");
+
+      // ── Step 6: Stack it up (bottom bun) ──
       tl.to(
         ".pre-bun-bottom",
         {
@@ -136,7 +152,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
         },
         "-=0.05"
       );
-      showStep(".pre-step-5", "-=0.25");
+      showStep(".pre-step-6", "-=0.25");
 
       // Small bounce on the whole burger
       tl.to(".pre-burger-group", {
@@ -191,7 +207,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
                 ? { right: "clamp(30px, 8vw, 120px)" }
                 : { left: "clamp(30px, 8vw, 120px)" }),
               // Vertically stagger positions
-              top: `${38 + i * 5}%`,
+              top: `${34 + i * 4.5}%`,
               textShadow: "0 2px 12px rgba(0,0,0,0.3)",
             }}
           >
@@ -233,17 +249,68 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           {/* ── Lettuce ── */}
           <g className="pre-lettuce">
             <path
-              d="M22,105 Q40,90 60,105 Q80,90 100,105 Q120,90 140,105 Q160,90 178,105 L175,115 Q155,102 140,115 Q120,102 100,115 Q80,102 60,115 Q40,102 25,115 Z"
+              d="M22,102 Q40,88 60,102 Q80,88 100,102 Q120,88 140,102 Q160,88 178,102 L175,112 Q155,99 140,112 Q120,99 100,112 Q80,99 60,112 Q40,99 25,112 Z"
               fill="#4CAF50"
               stroke="#2E7D32"
               strokeWidth="2"
             />
           </g>
 
+          {/* ── Tomato ── */}
+          <g className="pre-tomato">
+            {/* Left Slice */}
+            <rect
+              x="26"
+              y="110"
+              width="76"
+              height="15"
+              rx="7.5"
+              fill="#E52521"
+              stroke="#8B1111"
+              strokeWidth="2.5"
+            />
+            <rect
+              x="30"
+              y="112.5"
+              width="68"
+              height="10"
+              rx="5"
+              fill="#FF4238"
+            />
+            <ellipse cx="44" cy="117.5" rx="3.5" ry="2.2" fill="#FFE866" stroke="#D48800" strokeWidth="0.8" />
+            <ellipse cx="60" cy="117.5" rx="3.5" ry="2.2" fill="#FFE866" stroke="#D48800" strokeWidth="0.8" />
+            <ellipse cx="76" cy="117.5" rx="3.5" ry="2.2" fill="#FFE866" stroke="#D48800" strokeWidth="0.8" />
+            <ellipse cx="38" cy="114" rx="4" ry="1.2" fill="#FFFFFF" opacity="0.6" />
+
+            {/* Right Slice */}
+            <rect
+              x="98"
+              y="110"
+              width="76"
+              height="15"
+              rx="7.5"
+              fill="#E52521"
+              stroke="#8B1111"
+              strokeWidth="2.5"
+            />
+            <rect
+              x="102"
+              y="112.5"
+              width="68"
+              height="10"
+              rx="5"
+              fill="#FF4238"
+            />
+            <ellipse cx="116" cy="117.5" rx="3.5" ry="2.2" fill="#FFE866" stroke="#D48800" strokeWidth="0.8" />
+            <ellipse cx="132" cy="117.5" rx="3.5" ry="2.2" fill="#FFE866" stroke="#D48800" strokeWidth="0.8" />
+            <ellipse cx="148" cy="117.5" rx="3.5" ry="2.2" fill="#FFE866" stroke="#D48800" strokeWidth="0.8" />
+            <ellipse cx="158" cy="114" rx="4" ry="1.2" fill="#FFFFFF" opacity="0.6" />
+          </g>
+
           {/* ── Cheese ── */}
           <g className="pre-cheese">
             <path
-              d="M25,118 L175,118 L180,135 Q165,142 155,135 L25,135 L20,142 Z"
+              d="M24,123 L176,123 L180,140 Q165,148 155,140 L110,140 Q100,152 90,140 L25,140 L20,148 Z"
               fill="#FFC107"
               stroke="#F9A825"
               strokeWidth="2"
@@ -254,7 +321,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           <g className="pre-patty">
             <rect
               x="28"
-              y="140"
+              y="143"
               width="144"
               height="30"
               rx="14"
@@ -265,7 +332,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
             />
             <rect
               x="35"
-              y="148"
+              y="151"
               width="130"
               height="14"
               rx="7"
@@ -278,13 +345,13 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           {/* ── Bottom Bun ── */}
           <g className="pre-bun-bottom">
             <path
-              d="M30,175 L170,175 Q175,200 100,200 Q25,200 30,175 Z"
+              d="M30,176 L170,176 Q175,202 100,202 Q25,202 30,176 Z"
               fill="#E8942E"
               stroke="#8B4513"
               strokeWidth="3"
             />
             <path
-              d="M40,180 L160,180 Q163,193 100,193 Q37,193 40,180 Z"
+              d="M40,181 L160,181 Q163,194 100,194 Q37,194 40,181 Z"
               fill="#D07E22"
               opacity="0.4"
             />
