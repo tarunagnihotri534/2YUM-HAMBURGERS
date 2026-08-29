@@ -121,8 +121,8 @@ export default function MenuPage() {
         {/* Background Image */}
         <div className="absolute inset-0 bg-black">
           <Image
-            src="/images/smoky-burger.webp"
-            alt="Crav Smoky Burger"
+            src="/images/spicyBurger.png"
+            alt="Crav Spicy Burger"
             fill
             className="object-cover opacity-85"
             priority
@@ -190,21 +190,37 @@ export default function MenuPage() {
           {BURGERS_DATA.map((burger) => (
             <div 
               key={burger.id} 
-              className="menu-card-item relative bg-white rounded-[2.5vw] p-[2.5vw] pb-[2vw] flex flex-col justify-between shadow-md border-[3px] border-white hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+              className="menu-card-item relative bg-white rounded-[2.5vw] max-md:rounded-[5vw] p-[2vw] pb-[1.8vw] flex flex-col items-center justify-between shadow-md border-[3px] border-white hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
             >
               {/* Plus Button Top Right */}
-              <button className="absolute top-[2vw] right-[2vw] z-30 w-[3.5vw] max-md:w-[9vw] h-[3.5vw] max-md:h-[9vw] bg-[var(--yellow)] hover:scale-105 active:scale-95 text-white rounded-full flex items-center justify-center font-bold text-[2vw] max-md:text-[5vw] transition-transform duration-200">
+              <button 
+                className="absolute top-[1.6vw] right-[1.6vw] z-30 w-[3.5vw] max-md:w-[9vw] h-[3.5vw] max-md:h-[9vw] bg-[var(--yellow)] hover:scale-105 active:scale-95 text-white rounded-full flex items-center justify-center font-bold text-[2vw] max-md:text-[5vw] transition-transform duration-200 shadow-sm cursor-pointer"
+                aria-label={`Add ${burger.name} to cart`}
+              >
                 +
               </button>
 
               {/* Checkered pattern background strip */}
-              <div className="absolute left-0 right-0 top-[42%] -translate-y-1/2 h-[3.5vw] max-md:h-[8vw] z-0 flex flex-col justify-between overflow-hidden opacity-95">
+              <div className="absolute left-0 right-0 top-[48%] -translate-y-1/2 h-[3.5vw] max-md:h-[8vw] z-0 flex flex-col justify-between overflow-hidden opacity-95 pointer-events-none">
                 <div className="w-full h-1/2 bg-[repeating-linear-gradient(90deg,var(--red)_0px,var(--red)_16px,#fff_16px,#fff_32px)]" />
                 <div className="w-full h-1/2 bg-[repeating-linear-gradient(90deg,#fff_0px,#fff_16px,var(--red)_16px,var(--red)_32px)]" />
               </div>
 
-              {/* Burger Image Container */}
-              <div className="menu-card-img-wrap w-[18vw] max-md:w-[50vw] h-[16vw] max-md:h-[40vw] relative mx-auto z-10 mb-[1.5vw] transform transition-transform duration-300">
+              {/* Soft Gradient Scrim Overlay at the bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-[6vw] max-md:h-[16vw] bg-gradient-to-t from-black/[0.04] via-black/[0.01] to-transparent pointer-events-none z-0 rounded-b-[2.5vw] max-md:rounded-b-[5vw]" />
+
+              {/* 1. Burger Name: Centered directly above the burger image */}
+              <div className="relative z-10 w-full text-center mb-[0.8vw] max-md:mb-[2vw] px-[1vw]">
+                <h3 
+                  className="font-modak text-[1.6vw] max-md:text-[4.5vw] text-[var(--red)] leading-[1.1] select-none text-center w-full" 
+                  style={{ fontStyle: "italic" }}
+                >
+                  {burger.name}
+                </h3>
+              </div>
+
+              {/* 2. Burger Image Container */}
+              <div className="menu-card-img-wrap w-[18vw] max-md:w-[50vw] h-[16vw] max-md:h-[40vw] relative mx-auto z-10 mb-[1vw] max-md:mb-[2.5vw] transform transition-transform duration-300">
                 <Image 
                   src={burger.image} 
                   alt={burger.name} 
@@ -213,12 +229,9 @@ export default function MenuPage() {
                 />
               </div>
 
-              {/* Footer: Name on left, Price on right */}
-              <div className="flex items-baseline justify-between w-full mt-auto z-10 pt-[0.5vw]">
-                <h3 className="font-modak text-[1.8vw] max-md:text-[5vw] text-[var(--red)] leading-[1.1] select-none" style={{ fontStyle: "italic" }}>
-                  {burger.name}
-                </h3>
-                <span className="font-nunito font-extrabold text-[1.6vw] max-md:text-[4.5vw] text-black/80 leading-none select-none whitespace-nowrap px-[1vw] py-[0.5vw] bg-black/5 rounded-lg">
+              {/* 3. Price Pill: Centered horizontally at the very bottom of the card */}
+              <div className="relative z-10 flex justify-center w-full mt-auto">
+                <span className="font-nunito font-extrabold tracking-tight text-[1.15vw] max-md:text-[3.5vw] text-[var(--dark)] bg-white/95 backdrop-blur-sm border border-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.07)] px-[1.4vw] py-[0.4vw] max-md:px-[4vw] max-md:py-[1.2vw] rounded-full shrink-0 leading-none whitespace-nowrap select-none">
                   {burger.price}
                 </span>
               </div>

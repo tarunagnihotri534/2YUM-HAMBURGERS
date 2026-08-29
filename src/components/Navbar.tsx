@@ -19,7 +19,7 @@ export function Navbar() {
       <div className="flex items-center gap-[1vw] max-md:gap-[3vw]">
         <Link
           href="/menu"
-          className="font-mouse-memoirs hover:scale-105 transition-all duration-300 flex items-center justify-center text-[1.3vw] max-md:text-[4vw] uppercase tracking-wide text-[var(--cream)] bg-[var(--red)] px-[2.4vw] py-[0.8vw] max-md:px-[6vw] max-md:py-[2.2vw] rounded-full hover:bg-black select-none"
+          className="font-mouse-memoirs hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center text-[1.3vw] max-md:text-[4vw] uppercase tracking-wide text-white bg-[var(--red)] border border-[var(--red)] shadow-[0_4px_15px_rgba(229,27,33,0.3)] hover:shadow-[0_6px_20px_rgba(229,27,33,0.45)] hover:bg-[#c9141a] px-[2.2vw] py-[0.7vw] max-md:px-[5.5vw] max-md:py-[2vw] rounded-full select-none"
           data-cursor-hide="true"
         >
           BURGERS
@@ -28,9 +28,9 @@ export function Navbar() {
         <div className="relative">
           <button
             data-cursor-hide="true"
-            className={`hover:scale-105 flex items-center gap-[.8vw] max-md:gap-[2.5vw] px-[2vw] py-[0.8vw] max-md:px-[5vw] max-md:py-[2.2vw] rounded-full cursor-pointer transition-all duration-400 font-mouse-memoirs text-[1.3vw] max-md:text-[4vw] uppercase tracking-wide ${isMenuOpen
-              ? 'bg-[var(--red)] border-[.15vw] max-md:border-[.4vw] border-[var(--red)] text-white'
-              : 'bg-transparent border-[.15vw] max-md:border-[.4vw] border-black/20 text-[var(--dark)] hover:border-black'
+            className={`hover:scale-105 active:scale-95 flex items-center gap-[.8vw] max-md:gap-[2.5vw] px-[2vw] py-[0.7vw] max-md:px-[5vw] max-md:py-[2vw] rounded-full cursor-pointer transition-all duration-300 font-mouse-memoirs text-[1.3vw] max-md:text-[4vw] uppercase tracking-wide select-none ${isMenuOpen
+              ? 'bg-[var(--red)] border border-[var(--red)] text-white shadow-[0_4px_15px_rgba(229,27,33,0.3)]'
+              : 'bg-white/90 hover:bg-white backdrop-blur-md border border-black/10 hover:border-black/25 text-[var(--dark)] shadow-[0_4px_14px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.12)]'
               }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
@@ -41,9 +41,9 @@ export function Navbar() {
               <>
                 MENU
                 <span className="flex flex-col gap-[.3vw] max-md:gap-[.6vw]">
-                  <span className="block w-[1.4vw] max-md:w-[4vw] h-[.15vw] max-md:h-[.4vw] bg-current rounded-full" />
-                  <span className="block w-[1.4vw] max-md:w-[4vw] h-[.15vw] max-md:h-[.4vw] bg-current rounded-full" />
-                  <span className="block w-[1.4vw] max-md:w-[4vw] h-[.15vw] max-md:h-[.4vw] bg-current rounded-full" />
+                  <span className="block w-[1.3vw] max-md:w-[3.8vw] h-[.15vw] max-md:h-[.38vw] bg-current rounded-full" />
+                  <span className="block w-[1.3vw] max-md:w-[3.8vw] h-[.15vw] max-md:h-[.38vw] bg-current rounded-full" />
+                  <span className="block w-[1.3vw] max-md:w-[3.8vw] h-[.15vw] max-md:h-[.38vw] bg-current rounded-full" />
                 </span>
               </>
             )}
